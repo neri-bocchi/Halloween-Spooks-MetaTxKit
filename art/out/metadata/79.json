@@ -1,0 +1,23 @@
+{
+  "name": "Halloween Spooks #79",
+  "description": "Halloween NFT #79 (Legendary) — 🧟",
+  "image": "ipfs://bafybeib4zbjux4g7qonbr427taa23j44bekubs2fmg5ngydpwnbcjzbxg4/79.png",
+  "attributes": [
+    {
+      "trait_type": "Series",
+      "value": "Halloween Spooks"
+    },
+    {
+      "trait_type": "ID",
+      "value": 79
+    },
+    {
+      "trait_type": "Emoji",
+      "value": "🧟"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    }
+  ]
+}

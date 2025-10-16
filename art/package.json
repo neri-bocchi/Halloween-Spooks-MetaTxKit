@@ -1,0 +1,17 @@
+{
+  "name": "halloween-nft-ipfs-infura",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node upload-infura.mjs"
+  },
+  "dependencies": {
+    "@pinata/sdk": "^2.1.0",
+    "axios": "^1.12.2",
+    "dotenv": "^16.6.1",
+    "ipfs-http-client": "^60.0.0",
+    "sharp": "^0.34.4",
+    "twemoji": "^14.0.2"
+  }
+}

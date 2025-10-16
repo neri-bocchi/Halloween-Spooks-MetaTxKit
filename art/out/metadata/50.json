@@ -1,0 +1,23 @@
+{
+  "name": "Halloween Spooks #50",
+  "description": "Halloween NFT #50 (Common) — 🕸️",
+  "image": "ipfs://bafybeib4zbjux4g7qonbr427taa23j44bekubs2fmg5ngydpwnbcjzbxg4/50.png",
+  "attributes": [
+    {
+      "trait_type": "Series",
+      "value": "Halloween Spooks"
+    },
+    {
+      "trait_type": "ID",
+      "value": 50
+    },
+    {
+      "trait_type": "Emoji",
+      "value": "🕸️"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    }
+  ]
+}

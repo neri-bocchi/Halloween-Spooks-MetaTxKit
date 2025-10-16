@@ -1,0 +1,7 @@
+{
+  "network": "amoy",
+  "chainId": "80002",
+  "forwarder": "0xe8cB75877D6277bCD423f39177BbEB32eDbd899b",
+  "halloweenNFT": "0x0F835E9947f15A799eB173FEFE39f572279fA7Ac",
+  "deployTxHash": "0x5789482eddc62cfd22f43f008c5b7fe096451d8cbc929573bdcb91b4f21f557c"
+}
