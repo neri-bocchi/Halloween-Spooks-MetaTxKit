@@ -17,12 +17,12 @@
     .container{max-width:600px;margin:0 auto;padding:40px 20px}
     header{text-align:center;margin-bottom:40px;padding-top:10px}
     .logo{font-size:60px;margin-bottom:20px;animation:pulse 2s infinite}
-    @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+    @keyframes pulse{0%,100%{transform:scale(3)}50%{transform:scale(1.1)}}
     h1{font-size:48px;font-weight:900;background:linear-gradient(135deg,#ff6b00 0%,#8b00ff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:15px;text-shadow:0 0 30px rgba(255,107,0,.3)}
     .subtitle{font-size:18px;color:#b0b0b0;margin-bottom:10px}
     .network-badge{display:inline-block;padding:8px 20px;background:rgba(139,0,255,.2);border:1px solid rgba(139,0,255,.4);border-radius:20px;font-size:13px;color:#8b00ff;font-weight:600}
     .mint-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:40px;backdrop-filter:blur(10px);box-shadow:0 20px 60px rgba(0,0,0,.5)}
-    .nft-preview{width:100%;aspect-ratio:1;background:linear-gradient(135deg,rgba(139,0,255,.1) 0%,rgba(255,69,0,.1) 100%);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:120px;margin-bottom:30px;border:2px solid rgba(139,0,255,.3);position:relative;overflow:hidden}
+    .nft-preview{width:100%;aspect-ratio:1;background:linear-gradient(135deg,rgba(139,0,255,.1) 0%,rgba(255,69,0,.1) 100%);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:200px;margin-bottom:30px;border:2px solid rgba(139,0,255,.3);position:relative;overflow:hidden}
     .info-section{margin-bottom:30px}
     .info-row{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid rgba(255,255,255,.05)}
     .info-row:last-child{border-bottom:none}
@@ -75,10 +75,10 @@
 
   <div class="container">
     <header>
-      <div class="logo">👻</div>
-      <h1>Halloween Spooks</h1>
+
+      <h1>👻 Halloween Spooks 🎃</h1>
       <p class="subtitle">Free NFT Mint with Gasless Transactions</p>
-      <div class="network-badge">⚡ Powered by Meta-Transactions</div>
+      <a href="https://github.com/neri-bocchi/PermissionedMetaTxKit"><div class="network-badge">⚡ Powered by MetaTxKit</div></a>
     </header>
 
     <div class="mint-card">
@@ -87,7 +87,8 @@
       <div class="info-section">
         <div class="info-row"><span class="info-label">Price</span><span class="free-badge">FREE</span></div>
         <div class="info-row"><span class="info-label">Limit per wallet</span><span class="info-value">1 NFT</span></div>
-        <div class="info-row"><span class="info-label">Gas fees</span><span class="info-value">Sponsored 🎉</span></div>
+        <div class="info-row"><span class="info-label">Contract Address:</span><span class="info-value">0x0F835E9947f15A799eB173FEFE39f572279fA7Ac</span></div>
+        
       </div>
 
       <button class="btn btn-primary" id="connectBtn" onclick="toggleWallet()">
@@ -105,9 +106,9 @@
         <div class="owned-grid">
           <img id="ownedImg" class="owned-img" alt="Your NFT" onclick="openModal()"/>
           <div>
-            <div><strong>You can mint 1 token per address</strong></div>
+            <div><strong><b>You already mint a token with this address</strong></div>
             <div><strong>Token ID:</strong> <span id="ownedTokenId">-</span></div>
-            <div><strong>Token URI:</strong> <span id="ownedTokenUri" class="mono">-</span></div>
+            <div hidden><strong>Token URI:</strong> <span id="ownedTokenUri" class="mono">-</span></div>
           </div>
         </div>
       </div>
@@ -155,6 +156,8 @@
   </div>
 
 <script>
+
+let prevemoji = 0;
 const CONFIG = {
   NFT_CONTRACT: '0x0F835E9947f15A799eB173FEFE39f572279fA7Ac',
   HUB_CONTRACT: '0xe8cB75877D6277bCD423f39177BbEB32eDbd899b',
@@ -171,6 +174,41 @@ const NFT_ABI = [
 ];
 
 let provider, signer, nftContract, userAddress, currentNFTMetadata = {}, isConnected = false;
+
+const SPOOKY_EMOJIS = ['🎃', '👻', '🦇', '🕷️', '💀', '🕸️', '🧛', '🧟', '🍬', '🌙'];
+let emojiInterval;
+
+function rotateEmoji(){
+  const preview = document.getElementById('nftPreview');
+  do  {
+    randomEmoji = SPOOKY_EMOJIS[Math.floor(Math.random() * SPOOKY_EMOJIS.length)];
+
+  } while (randomEmoji === prevemoji)
+  prevemoji = randomEmoji;
+  preview.style.opacity = '0';
+  preview.style.transform = 'scale(0.8) rotate(-20deg)';
+  
+  setTimeout(() => {
+    preview.textContent = randomEmoji;
+    preview.style.transition = 'all 0.6s ease-in-out';
+    preview.style.opacity = '1';
+    preview.style.transform = 'scale(1) rotate(0deg)';
+  }, 300);
+
+}
+
+function startEmojiRotation(){
+  const prevemoji = 0;
+  rotateEmoji();
+  emojiInterval = setInterval(rotateEmoji, 3000);
+}
+
+function stopEmojiRotation(){
+  if(emojiInterval) clearInterval(emojiInterval);
+}
+
+// Iniciar rotación al cargar la página
+window.addEventListener('load', startEmojiRotation);
 
 function showStatus(msg, type){
   const el=document.getElementById('statusMessage');
@@ -322,7 +360,7 @@ async function connectWallet(){
 }
 
 async function mintNFT(){
-  const BASE="ipfs://bafybeieumajnuu67lxlctlcqvb5cdqfzipaozatt44ah3sbdgnosbryori/";
+  const BASE="ipfs://bafybeidz5soljygj4rjouso7w6dg255ugdwg4iqylh76zvv373473uqwta/";
   const rand=1+(crypto.getRandomValues(new Uint32Array(1))[0]%100);
   const uri=`${BASE}${rand}.json`;
   showStatus('Minting...','info');
