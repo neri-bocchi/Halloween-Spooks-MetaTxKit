@@ -66,68 +66,16 @@
     .attribute-card{background:rgba(139,0,255,.1);border:1px solid rgba(139,0,255,.3);border-radius:12px;padding:12px;text-align:center}
     .attribute-type{font-size:11px;color:#888;text-transform:uppercase;margin-bottom:5px}
     .attribute-value{font-size:16px;font-weight:700;color:#8b00ff}
-    
-    /* MetaMask notification */
-    .metamask-notification{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#ff6b00 0%,#f7931a 100%);padding:20px 30px;border-radius:16px;box-shadow:0 10px 40px rgba(255,107,0,.6);z-index:2000;display:none;align-items:center;gap:15px;border:2px solid rgba(255,255,255,.2);min-width:320px;animation:slideDown .4s ease,pulse-glow 2s infinite}
-    .metamask-notification.show{display:flex}
-    @keyframes slideDown{from{transform:translateX(-50%) translateY(-100px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
-    @keyframes pulse-glow{0%,100%{box-shadow:0 10px 40px rgba(255,107,0,.6)}50%{box-shadow:0 15px 60px rgba(255,107,0,.9)}}
-    .metamask-icon{font-size:40px;animation:bounce .6s infinite}
-    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-    .metamask-text{flex:1}
-    .metamask-title{font-size:16px;font-weight:700;color:white;margin-bottom:4px}
-    .metamask-subtitle{font-size:13px;color:rgba(255,255,255,.9)}
-    .metamask-spinner{width:24px;height:24px;border:3px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin 1s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    
-    /* Gas balance indicator */
-    .gas-balance{position:fixed;top:20px;right:20px;background:rgba(0,0,0,.6);backdrop-filter:blur(10px);border:1px solid rgba(139,0,255,.4);border-radius:16px;padding:12px 20px;z-index:100;min-width:280px;max-width:320px}
-    .gas-header{display:flex;align-items:center;gap:12px;margin-bottom:8px}
-    .gas-icon{font-size:24px}
-    .gas-info{flex:1}
-    .gas-label{font-size:11px;color:#888;text-transform:uppercase;margin-bottom:2px}
-    .gas-value{font-size:16px;font-weight:700;color:#8b00ff}
-    .gas-loading{font-size:13px;color:#666}
-    .gas-donate{font-size:10px;color:#666;line-height:1.4;padding-top:8px;border-top:1px solid rgba(255,255,255,.05)}
-    .gas-donate-address{color:#8b00ff;font-family:'Courier New',monospace;word-break:break-all;cursor:pointer;transition:color .3s ease}
-    .gas-donate-address:hover{color:#ff6b00}
   </style>
 </head>
 <body>
-  <!-- MetaMask Notification -->
-  <div class="metamask-notification" id="metamaskNotification">
-    <div class="metamask-icon">🦊</div>
-    <div class="metamask-text">
-      <div class="metamask-title">Sign in MetaMask</div>
-      <div class="metamask-subtitle">Please check your wallet extension</div>
-    </div>
-    <div class="metamask-spinner"></div>
-  </div>
-
-  <!-- Gas Balance Indicator -->
-  <div class="gas-balance" id="gasBalance">
-    <div class="gas-header">
-      <div class="gas-icon">⛽</div>
-      <div class="gas-info">
-        <div class="gas-label">Relayer Balance</div>
-        <div class="gas-value" id="gasValue">
-          <span class="gas-loading">Loading...</span>
-        </div>
-      </div>
-    </div>
-    <div class="gas-donate">
-      Please send POL (Amoy Testnet) to:<br>
-      <span class="gas-donate-address" onclick="copyAddress()" title="Click to copy">0xA7293f15A7c1cF346aafD603a8D0E1Bc681d7b45</span><br>
-      to keep the project alive
-    </div>
-  </div>
-
   <div class="spooky-bg"></div>
   <div class="floating-ghost" style="top:10%; left:10%;">👻</div>
   <div class="floating-ghost" style="top:60%; right:15%; animation-delay:-5s;">🎃</div>
 
   <div class="container">
     <header>
+
       <h1>👻 Halloween Spooks 🎃</h1>
       <p class="subtitle">Free NFT Mint with Gasless Transactions</p>
       <a href="https://github.com/neri-bocchi/PermissionedMetaTxKit"><div class="network-badge">⚡ Powered by MetaTxKit</div></a>
@@ -140,6 +88,7 @@
         <div class="info-row"><span class="info-label">Price</span><span class="free-badge">FREE</span></div>
         <div class="info-row"><span class="info-label">Limit per wallet</span><span class="info-value">1 NFT</span></div>
         <div class="info-row"><span class="info-label">Contract Address:</span><span class="info-value">0x0F835E9947f15A799eB173FEFE39f572279fA7Ac</span></div>
+        
       </div>
 
       <button class="btn btn-primary" id="connectBtn" onclick="toggleWallet()">
@@ -207,15 +156,14 @@
   </div>
 
 <script>
+
 let prevemoji = 0;
 const CONFIG = {
   NFT_CONTRACT: '0x0F835E9947f15A799eB173FEFE39f572279fA7Ac',
   HUB_CONTRACT: '0xe8cB75877D6277bCD423f39177BbEB32eDbd899b',
   RELAYER_ENDPOINT: 'http://127.0.0.1:3000/relay',
-  RELAYER_ADDRESS: '0xA7293f15A7c1cF346aafD603a8D0E1Bc681d7b45',
   CHAIN_ID: 80002,
-  HTTP_GATEWAY: 'https://ipfs.io/ipfs/',
-  RPC_URL: 'https://rpc-amoy.polygon.technology'
+  HTTP_GATEWAY: 'https://ipfs.io/ipfs/'
 };
 
 const NFT_ABI = [
@@ -227,54 +175,14 @@ const NFT_ABI = [
 
 let provider, signer, nftContract, userAddress, currentNFTMetadata = {}, isConnected = false;
 
-// Funciones para la notificación de MetaMask
-function showMetaMaskNotification(){
-  document.getElementById('metamaskNotification').classList.add('show');
-}
-
-function hideMetaMaskNotification(){
-  document.getElementById('metamaskNotification').classList.remove('show');
-}
-
-// Función para copiar la dirección del relayer
-function copyAddress(){
-  const address = CONFIG.RELAYER_ADDRESS;
-  navigator.clipboard.writeText(address).then(() => {
-    const el = document.querySelector('.gas-donate-address');
-    const originalText = el.textContent;
-    el.textContent = '✓ Copied!';
-    el.style.color = '#00ff00';
-    setTimeout(() => {
-      el.textContent = originalText;
-      el.style.color = '';
-    }, 2000);
-  }).catch(err => {
-    console.error('Failed to copy:', err);
-  });
-}
-
-// Función para obtener y mostrar el balance del relayer
-async function updateRelayerBalance(){
-  try{
-    const rpcProvider = new ethers.providers.JsonRpcProvider(CONFIG.RPC_URL);
-    const balance = await rpcProvider.getBalance(CONFIG.RELAYER_ADDRESS);
-    const balanceInMatic = ethers.utils.formatEther(balance);
-    const formatted = parseFloat(balanceInMatic).toFixed(4);
-    document.getElementById('gasValue').innerHTML = `<span style="color:#8b00ff">${formatted} POL</span>`;
-  }catch(e){
-    console.error('Error fetching relayer balance:', e);
-    document.getElementById('gasValue').innerHTML = '<span style="color:#ff6b6b">Error</span>';
-  }
-}
-
 const SPOOKY_EMOJIS = ['🎃', '👻', '🦇', '🕷️', '💀', '🕸️', '🧛', '🧟', '🍬', '🌙'];
 let emojiInterval;
 
 function rotateEmoji(){
   const preview = document.getElementById('nftPreview');
-  let randomEmoji;
-  do {
+  do  {
     randomEmoji = SPOOKY_EMOJIS[Math.floor(Math.random() * SPOOKY_EMOJIS.length)];
+
   } while (randomEmoji === prevemoji)
   prevemoji = randomEmoji;
   preview.style.opacity = '0';
@@ -286,9 +194,11 @@ function rotateEmoji(){
     preview.style.opacity = '1';
     preview.style.transform = 'scale(1) rotate(0deg)';
   }, 300);
+
 }
 
 function startEmojiRotation(){
+  const prevemoji = 0;
   rotateEmoji();
   emojiInterval = setInterval(rotateEmoji, 3000);
 }
@@ -297,12 +207,8 @@ function stopEmojiRotation(){
   if(emojiInterval) clearInterval(emojiInterval);
 }
 
-// Iniciar funciones al cargar la página
-window.addEventListener('load', () => {
-  startEmojiRotation();
-  updateRelayerBalance();
-  setInterval(updateRelayerBalance, 30000);
-});
+// Iniciar rotación al cargar la página
+window.addEventListener('load', startEmojiRotation);
 
 function showStatus(msg, type){
   const el=document.getElementById('statusMessage');
@@ -368,6 +274,7 @@ async function showOwnedNFT(){
     const meta=await fetch(metaUrl).then(r=>r.json()).catch(()=>({}));
     const img=ipfsToHttp(meta.image||meta.image_url||'');
     
+    // Guardar metadata para el modal
     currentNFTMetadata = {
       id: id.toString(),
       uri: uri,
@@ -391,12 +298,14 @@ function openModal(){
   const modal = document.getElementById('nftModal');
   const metadata = currentNFTMetadata;
   
+  // Llenar datos del modal
   document.getElementById('modalNftImage').src = metadata.image;
   document.getElementById('modalName').textContent = metadata.name;
   document.getElementById('modalDescription').textContent = metadata.description;
   document.getElementById('modalTokenId').textContent = metadata.id;
   document.getElementById('modalTokenUri').textContent = metadata.uri;
   
+  // Mostrar atributos si existen
   if(metadata.attributes && metadata.attributes.length > 0){
     const grid = document.getElementById('attributesGrid');
     grid.innerHTML = '';
@@ -454,43 +363,19 @@ async function mintNFT(){
   const BASE="ipfs://bafybeidz5soljygj4rjouso7w6dg255ugdwg4iqylh76zvv373473uqwta/";
   const rand=1+(crypto.getRandomValues(new Uint32Array(1))[0]%100);
   const uri=`${BASE}${rand}.json`;
-  showStatus('Preparing transaction...','info');
-  
-  try{
-    const iface=new ethers.utils.Interface(NFT_ABI);
-    const callData=iface.encodeFunctionData('mint',[uri]);
-    const dataHash=ethers.utils.keccak256(callData);
-    const domain={name:'PermissionedMetaTxHub',version:'1',chainId:CONFIG.CHAIN_ID,verifyingContract:CONFIG.HUB_CONTRACT};
-    const types={Forward:[{name:'from',type:'address'},{name:'to',type:'address'},{name:'value',type:'uint256'},{name:'space',type:'uint32'},{name:'nonce',type:'uint256'},{name:'deadline',type:'uint256'},{name:'dataHash',type:'bytes32'},{name:'caller',type:'address'}]};
-    const msg={from:userAddress,to:CONFIG.NFT_CONTRACT,value:0,space:111,nonce:Date.now(),deadline:Math.floor(Date.now()/1000)+86400,dataHash,caller:CONFIG.RELAYER_ADDRESS};
-    
-    showMetaMaskNotification();
-    showStatus('Waiting for signature...','info');
-    
-    const sig=await signer._signTypedData(domain,types,msg);
-    
-    hideMetaMaskNotification();
-    showStatus('Sending to relayer...','info');
-    
-    const resp=await fetch(CONFIG.RELAYER_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({forward:msg,signature:sig,callData})});
-    const out=await resp.json();
-    
-    if(out.txHash){
-      showStatus(`Minted! <a href="https://amoy.polygonscan.com/tx/${out.txHash}" target="_blank" style="color:#00ff00;text-decoration:underline">View Transaction</a>`,'success');
-      setTimeout(updateRelayerBalance, 3000);
-    }
-    else{
-      showStatus('Mint failed: ' + (out.error || 'Unknown error'),'error');
-    }
-    setTimeout(showOwnedNFT,4000);
-  }catch(e){
-    hideMetaMaskNotification();
-    if(e.code === 4001){
-      showStatus('Transaction rejected by user','error');
-    } else {
-      showStatus('Error: ' + e.message,'error');
-    }
-  }
+  showStatus('Minting...','info');
+  const iface=new ethers.utils.Interface(NFT_ABI);
+  const callData=iface.encodeFunctionData('mint',[uri]);
+  const dataHash=ethers.utils.keccak256(callData);
+  const domain={name:'PermissionedMetaTxHub',version:'1',chainId:CONFIG.CHAIN_ID,verifyingContract:CONFIG.HUB_CONTRACT};
+  const types={Forward:[{name:'from',type:'address'},{name:'to',type:'address'},{name:'value',type:'uint256'},{name:'space',type:'uint32'},{name:'nonce',type:'uint256'},{name:'deadline',type:'uint256'},{name:'dataHash',type:'bytes32'},{name:'caller',type:'address'}]};
+  const msg={from:userAddress,to:CONFIG.NFT_CONTRACT,value:0,space:111,nonce:Date.now(),deadline:Math.floor(Date.now()/1000)+86400,dataHash,caller:'0xA7293f15A7c1cF346aafD603a8D0E1Bc681d7b45'};
+  const sig=await signer._signTypedData(domain,types,msg);
+  const resp=await fetch(CONFIG.RELAYER_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({forward:msg,signature:sig,callData})});
+  const out=await resp.json();
+  if(out.txHash){showStatus(`Minted! <a href="https://amoy.polygonscan.com/tx/${out.txHash}" target="_blank">View</a>`,'success');}
+  else{showStatus('Mint failed','error');}
+  setTimeout(showOwnedNFT,4000);
 }
 </script>
 </body>
